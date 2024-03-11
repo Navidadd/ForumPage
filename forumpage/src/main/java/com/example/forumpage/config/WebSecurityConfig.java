@@ -40,18 +40,14 @@ public class WebSecurityConfig   {
          
         http.authenticationProvider(authenticationProvider());
          
-        http.authorizeHttpRequests(auth ->
-            auth.requestMatchers("/").authenticated()
-            .anyRequest().permitAll()
-            )
+        http.authorizeHttpRequests(auth -> auth.requestMatchers("/").authenticated().anyRequest().permitAll())
             .formLogin(login ->
                 login.usernameParameter("email")
+                .loginPage("/login")  // Use .loginPage() for custom page
+                .failureUrl("/login?error=true")
                 .defaultSuccessUrl("/")
-                .permitAll()
-            )
-            .logout(logout -> logout.logoutSuccessUrl("/").permitAll()
-        );
-         
-        return http.build();
+                .permitAll())
+            .logout(logout -> logout.logoutSuccessUrl("/").permitAll());
+            return http.build();
     }
 }
