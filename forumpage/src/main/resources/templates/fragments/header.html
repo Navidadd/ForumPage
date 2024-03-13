@@ -1,0 +1,45 @@
+<section th:fragment="header">
+    <!DOCTYPE html>
+    <html xmlns:th="https://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+              integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+              crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="style.css"/>
+    
+        <style>
+            /* Estilos personalizados para el header */
+            .navbar {
+                background-color: #ffffff; /* Cambia el color de fondo del header */
+                border: none; /* Elimina el borde */
+            }
+    
+            .navbar-brand,
+            .navbar-nav li a {
+                color: black !important; /* Cambia el color del texto y anula los estilos de Bootstrap */
+            }
+    
+            .navbar-nav li a:hover {
+                text-decoration: underline; /* Subraya los enlaces al pasar el mouse sobre ellos */
+            }
+        </style>
+    
+    </head>
+    <body>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/">Foro-Char</a>
+            </div>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a th:if="${user != null}" th:text="'Perfil'" th:value="profile" href="/profile"></a></li>
+                <li><a th:if="${user == null}" th:text="'Iniciar sesión'" th:value="login" href="/login"></a></li>
+                <li><a th:if="${user != null}" th:text="'Cerrar sesión'" th:value="logout" href="/logout"></a></li>
+            </ul>
+        </div>
+    </nav>
+    </body>
+    </html>
+</section>
+    

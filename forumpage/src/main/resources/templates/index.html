@@ -2,49 +2,52 @@
 <html xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="ISO-8859-1">
-    <title>Blog</title>
     <link rel="stylesheet"
         href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
         integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
         crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="style.css"/>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
 
         body {
-            background-color: #f0f8ff;
+            background-color: #abc0d3 !important;
             justify-content: center;
             align-items: center;
         }
 
         .container {
-            background-color: #fff;
-            padding: 50px;
-            border-radius: 10px;
+            background-color: #ffff;
+            padding: 20px;
+            border-radius: 5px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .post {
-            border: 5px solid #55d6c2;
-            border-radius: 10px; /* Ajusta el valor según el grado de redondez deseado */
-            padding: 10px;
-            margin-bottom: 10px;
+            border: 2px solid #55d6c2;
+            border-radius: 5px;
+            padding: 5px;
+            margin-bottom: 5px;
         }
 
     </style>
 </head>
-<div class="container">
-    <body>
-        <h1>Foro-Char</h1>
-        <label th:if="${user != null}" th:text="Hola + ' ' + ${user.username}"></label>
-        <h3><a th:href="@{/register}">Register</a></h3>
-        <h3>
-            <a th:if="${user == null}" th:href="@{/login}">Login</a>
-            <a th:if="${user != null}" th:href="@{/logout}">Logout</a>
-        </h3>
+<section th:insert="fragments/header :: header"></section>
+<body>
+    <div class="container">
+        <h2>Publicaciones</h2>
+        <br>
         <div class="post">
             <section th:each="post : ${posts}">
-                <p th:text="${post.title}"></p>
+                <h3 th:text="${post.title}"></h3>
+                <label>
+                    <i class="fas fa-user"></i> <!-- Agrega un icono de usuario -->
+                    <span th:text="${post.idUsuario}"></span> <!-- Muestra el nombre del creador del post -->
+                </label>
             </section>
         </div>
-    </body>
-</div>
+    </div>
+</body>
 </html>

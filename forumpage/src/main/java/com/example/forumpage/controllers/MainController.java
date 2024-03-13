@@ -32,7 +32,7 @@ public class MainController {
         List<Post> posts = postRepository.findAll();
         
         for (Post post : posts) {
-            System.out.println(post);   
+            System.out.println(post.getIdUsuario());
         }
         
         return posts;
