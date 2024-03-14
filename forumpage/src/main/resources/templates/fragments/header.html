@@ -33,7 +33,7 @@
                 <a class="navbar-brand" href="/">Foro-Char</a>
             </div>
             <ul class="nav navbar-nav navbar-right">
-                <li><a th:if="${user != null}" th:text="'Perfil'" th:value="profile" href="/profile"></a></li>
+                <li><a th:if="${user != null}" th:text="'Perfil'" th:href="@{/profile/{userId}(userId=${user.id})}"></a></li>
                 <li><a th:if="${user == null}" th:text="'Iniciar sesión'" th:value="login" href="/login"></a></li>
                 <li><a th:if="${user != null}" th:text="'Cerrar sesión'" th:value="logout" href="/logout"></a></li>
             </ul>

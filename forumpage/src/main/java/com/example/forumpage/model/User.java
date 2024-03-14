@@ -1,5 +1,7 @@
 package com.example.forumpage.model;
 
+import java.sql.Date;
+import java.sql.Timestamp;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -26,6 +28,9 @@ public class User {
      
     @Column(name = "username", nullable = false, unique = true, length = 20)
     private String username;
+
+    @Column(name = "creation_date")
+    private Date creationDate;
 
     public Long getId() {
         return id;
@@ -59,4 +64,11 @@ public class User {
         this.username = username;
     }
 
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
 }

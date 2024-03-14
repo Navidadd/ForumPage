@@ -1,8 +1,10 @@
 package com.example.forumpage.repositories;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.example.forumpage.model.Post;
@@ -25,4 +27,6 @@ public interface PostRepository extends JpaRepository<Post, Long>{
         // Contar el número total de posts
         public long count();
     
+        @Query("SELECT creationDate FROM Post p WHERE p.id = ?1")
+        public Date getCreationDate(Long id);
 }

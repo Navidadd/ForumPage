@@ -2,6 +2,7 @@
 <html xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="ISO-8859-1">
+    <title>Perfil de Usuario</title>
     <link rel="stylesheet"
         href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
         integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
@@ -25,35 +26,18 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
-        hr {
-            border-color: #555555 !important; /* Color gris */
-            border-style: solid; /* Tipo de borde sólido */
-            border-width: 2px; /* Grosor de la línea */
-        }
 
     </style>
 </head>
 <section th:insert="fragments/header :: header"></section>
 <body>
     <div class="container">
-        <h2>Publicaciones</h2>
+        <h1>Perfil</h1>
         <br>
         <div>
-            <section th:each="post : ${posts}">
-                <hr>
-                <h3 th:text="${post.title}"></h3>
-                <label style="margin-right: 20px;">
-                    <i class="fas fa-user"></i>
-                    <a th:href="@{/profile/{userId}(userId=${post.idUser})}">
-                        <span th:text="${post.username}" style="font-weight: normal;"></span>
-                    </a>
-                </label>
-
-                <label style="margin-right: 20px;">
-                    <i class="fas fa-calendar"></i>
-                    <span th:text="${#dates.format(post.creationDate, 'dd-MM-yyyy')}" style="font-weight: normal;"></span>
-                </label>
-            </section>
+            <h4 th:text="'Usuario: ' + ${profileUser.username}"></h4>
+            <br>
+            <h4 th:text="'Desde: ' + ${#dates.format(profileUser.creationDate, 'dd-MM-yyyy')}"></h4>
         </div>
     </div>
 </body>
