@@ -43,8 +43,8 @@ public class WebSecurityConfig   {
         http.authorizeHttpRequests(auth -> auth.requestMatchers("/").authenticated().anyRequest().permitAll())
             .formLogin(login ->
                 login.usernameParameter("email")
-                .loginPage("/login")  // Use .loginPage() for custom page
-                .failureUrl("/login?error=true")
+                .loginPage("/login").permitAll()
+                .failureUrl("/login-error")
                 .defaultSuccessUrl("/")
                 .permitAll())
             .logout(logout -> logout.logoutSuccessUrl("/").permitAll());

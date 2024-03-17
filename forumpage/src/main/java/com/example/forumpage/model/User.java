@@ -1,13 +1,14 @@
 package com.example.forumpage.model;
 
-import java.sql.Date;
-import java.sql.Timestamp;
+import java.util.Date;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.*;
 
 @Entity
 @Table(name = "users")
@@ -20,12 +21,18 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
      
+    @NotBlank(message = "El correo electrónico es obligatorio")
+    @Email(message = "Debe tener un formato válido")
     @Column(name = "email", nullable = false, unique = true, length = 45)
     private String email;
      
+    @NotBlank(message = "La contraseña es obligatoria")
+    @Size(min = 8, message = "Debe contener minimo 8 caracteres")
     @Column(name = "password", nullable = false, length = 64)
     private String password;
      
+    @NotBlank(message = "Nombre de usuario es obligatorio")
+    @Size(min = 3, message = "Debe contener minimo 3 caracteres")
     @Column(name = "username", nullable = false, unique = true, length = 20)
     private String username;
 
@@ -62,13 +69,5 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public Date getCreationDate() {
-        return creationDate;
-    }
-
-    public void setCreationDate(Date creationDate) {
-        this.creationDate = creationDate;
     }
 }

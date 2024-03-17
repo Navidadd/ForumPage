@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.forumpage.model.User;
+import com.example.forumpage.repositories.UserRepository;
 import com.example.forumpage.services.AutenticationService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,26 +18,34 @@ import jakarta.servlet.http.HttpSession;
 public class LoginController {
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private AutenticationService autenticationService;
 
     @GetMapping("/login")
-    public String loginPage(){
+    public String loginPage(User user){
         return "login";
     }
 
     @PostMapping("/process_login")
-    public String processLogin(@RequestParam("email") String email, @RequestParam("password") String password, Model model, HttpServletRequest request) {
+    public String processLogin(User user, @RequestParam("email") String email, @RequestParam("password") String password, Model model, HttpServletRequest request) {
         
-        User sessionUser = autenticationService.authentication(email, password);
+        User existingUser = userRepository.findByEmail(email);
         
-        if(sessionUser != null){
+        if(existingUser != null){
             HttpSession session = request.getSession();
-            session.setAttribute("user", sessionUser);
-            return "redirect:/";
+            User sessionUser = autenticationService.authentication(email, password);
+            if(sessionUser != null){
+                session.setAttribute("user", sessionUser);
+                return "redirect:/";
+            }else{
+                model.addAttribute("passwordError", "Contraseña Incorrecta");
+                return "login";
+            }
+
         }else{
-            System.out.println(email);
-            System.out.println(password);
-            model.addAttribute("errorMessage", "Credenciales incorrectas");
+            model.addAttribute("emailError", "Email Incorrecto");
             return "login";
         }
     }

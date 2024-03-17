@@ -18,7 +18,6 @@ public class AutenticationService{
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
         if (user != null) {
-            System.out.println("matchendo " + password + " con " + user.getPassword());
             if(passwordEncoder.matches(password, user.getPassword())){
                 return user;
             }else{

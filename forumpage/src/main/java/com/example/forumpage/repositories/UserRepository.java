@@ -1,5 +1,7 @@
 package com.example.forumpage.repositories;
 
+import java.sql.Date;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -14,6 +16,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("SELECT u FROM User u WHERE u.id = ?1")
     public User findUserById(Long id);
 
-    @Query("Select username FROM User u WHERE u.id = ?1")
+    @Query("SELECT username FROM User u WHERE u.id = ?1")
     public String getUsername(Long id);
+
+    @Query("SELECT creationDate FROM User u WHERE u.id = ?1")
+    public Date getCreationDateById(Long id);
 }

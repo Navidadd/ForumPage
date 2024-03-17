@@ -23,27 +23,36 @@
                 border-radius: 5px;
                 box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             }
+
+            .error-message {
+                color: red;
+                font-size: 15px;
+            }
         </style>
     </head>
 <body>
-    <div class="container text-center pt-5">
+    <div class="container text-left pt-5">
         <div class="register-form">  <h1>Registrate</h1>
-            <form th:action="@{/process_register}" th:object="${user}" method="post">
+            <form th:action="@{/process_register}" th:object="${user}" method="post" class="form" novalidate>
                 <div class="mb-3">
                     <label for="username" class="form-label">Usuario</label>
-                    <input type="text" class="form-control" th:field="*{username}" id="username" required minlength="2" maxlength="20"/>
+                    <input type="text" class="form-control" th:field="*{username}" id="username" required/>
+                    <div class="error-message" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
                 </div>
                 <div class="mb-3">
                     <label for="email" class="form-label">E-mail: </label>
-                    <input type="email" class="form-control" th:field="*{email}" id="email" required />
+                    <input type="email" class="form-control" th:field="*{email}" id="email" required/>
+                    <div class="error-message" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Contraseña: </label>
-                    <input type="password" class="form-control" th:field="*{password}" id="password" required minlength="6" maxlength="20"/>
+                    <input type="password" class="form-control" th:field="*{password}" id="password" required/>
+                    <div class="error-message" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
                 </div>
                 <div class="mb-3">
-                    <label for="confirmPassword" class="form-label">Confirmar Contraseña: </label>
-                    <input type="password" class="form-control" id="confirmPassword" required minlength="6" maxlength="20"/>
+                    <label for="confirmPassword" class="form-label">Confirmar Contraseña:</label>
+                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required/>
+                    <div class="error-message" th:if="${#fields.hasGlobalErrors()}" th:errors="*{global}"></div>  
                 </div>
                 <button type="submit" class="btn btn-primary">Registrate</button>
             </form>

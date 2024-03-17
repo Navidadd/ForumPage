@@ -4,6 +4,7 @@ import java.sql.Date;
 
 public class PostDto {
 
+    private Long id;
     private String title;
     private String username;
     private Date creationDate;
@@ -51,6 +52,14 @@ public class PostDto {
 
     public void setIdUser(Long idUser) {
         this.idUser = idUser;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     

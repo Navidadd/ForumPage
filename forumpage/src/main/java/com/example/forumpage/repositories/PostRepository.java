@@ -12,6 +12,12 @@ import com.example.forumpage.model.Post;
 @Repository
 public interface PostRepository extends JpaRepository<Post, Long>{
 
+        @Query("SELECT p from Post p WHERE p.id = ?1")
+        public Post findPostById(Long id);
+
+        @Query("SELECT p from Post p WHERE p.idUsuario = ?1")
+        public List<Post> findAllByUserId(Long id);
+
         // Encontrar todos los posts
         public List<Post> findAll();
     
@@ -29,4 +35,5 @@ public interface PostRepository extends JpaRepository<Post, Long>{
     
         @Query("SELECT creationDate FROM Post p WHERE p.id = ?1")
         public Date getCreationDate(Long id);
+
 }

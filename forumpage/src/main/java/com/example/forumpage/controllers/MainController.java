@@ -1,6 +1,5 @@
 package com.example.forumpage.controllers;
 
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +39,7 @@ public class MainController {
         
         for (Post post : posts) {
             PostDto postDto = new PostDto();
+            postDto.setId(post.getId());
             postDto.setTitle(post.getTitle());
             postDto.setBody(post.getBody());
             postDto.setIdUser(post.getIdUsuario());
