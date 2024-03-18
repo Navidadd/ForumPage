@@ -21,4 +21,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query("SELECT creationDate FROM User u WHERE u.id = ?1")
     public Date getCreationDateById(Long id);
+
 }

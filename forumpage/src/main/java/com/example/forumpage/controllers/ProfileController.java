@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.example.forumpage.dto.PostDto;
@@ -30,16 +31,24 @@ public class ProfileController {
     @GetMapping("/profile/{userId}")
     public String showProfile(@PathVariable Long userId, Model model, HttpSession session) {
         
-        List<Post> posts = postRepository.findAllByUserId(userId);
-        List<PostDto> postDtos = new ArrayList<>();
         User profileUser = userRepository.findUserById(userId);
         model.addAttribute("profileUser", profileUser);
         model.addAttribute("creationDate", userRepository.getCreationDateById(userId));
+        model.addAttribute("postsQuantity", postRepository.countByUserId(userId));
 
         if(session.getAttribute("user") != null){
             model.addAttribute("user", session.getAttribute("user"));
         }
         
+        return "profile";
+    }
+
+    @ModelAttribute("posts")
+    public List<PostDto> postsList(@PathVariable Long userId){
+
+        List<Post> posts = postRepository.findAllByUserId(userId);
+        List<PostDto> postDtos = new ArrayList<>();
+
         for (Post post : posts) {
             PostDto postDto = new PostDto();
             postDto.setId(post.getId());
@@ -47,6 +56,7 @@ public class ProfileController {
             postDto.setCreationDate(post.getCreationDate());
             postDtos.add(postDto);
         }
-        return "profile";
+
+        return postDtos;
     }
 }
