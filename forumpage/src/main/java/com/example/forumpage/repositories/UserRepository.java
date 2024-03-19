@@ -8,18 +8,23 @@ import org.springframework.stereotype.Repository;
 import com.example.forumpage.model.User;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<User, Integer> {
     
-    @Query("SELECT u FROM User u WHERE u.email = ?1")
+    //@Query("SELECT u FROM User u WHERE u.email = ?1")
     public User findByEmail(String email);
 
-    @Query("SELECT u FROM User u WHERE u.id = ?1")
-    public User findUserById(Long id);
+    //@Query("SELECT u FROM User u WHERE u.id = ?1")
+    public User findUserById(Integer id);
 
     @Query("SELECT username FROM User u WHERE u.id = ?1")
-    public String getUsername(Long id);
+    public String getUsername(Integer id);
 
     @Query("SELECT creationDate FROM User u WHERE u.id = ?1")
-    public Date getCreationDateById(Long id);
+    public Date getCreationDateById(Integer id);
 
+    @Query("SELECT COUNT(f) FROM Follower f WHERE f.followedId = ?1")
+    public Integer countByFollowedId(Integer id);
+
+    @Query("SELECT COUNT(f) FROM Follower f WHERE f.followerId = ?1")
+    public Integer countByFollowerId(Integer id);
 }

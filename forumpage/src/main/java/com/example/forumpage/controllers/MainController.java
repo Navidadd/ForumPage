@@ -34,7 +34,7 @@ public class MainController {
     @ModelAttribute("posts")
     public List<PostDto> postsList(){
         
-        List<Post> posts = postRepository.findAll();
+        List<Post> posts = postRepository.findAllByOrderByCreationDateDesc();
         List<PostDto> postDtos = new ArrayList<>();
         
         for (Post post : posts) {

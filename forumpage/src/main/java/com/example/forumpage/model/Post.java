@@ -18,10 +18,10 @@ public class Post {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
-    @Column(name = "id_usuario", nullable = false)
-    private Long idUsuario;
+    @Column(name = "user_id", nullable = false)
+    private Integer userId;
 
     @Column(name = "body", nullable = false)
     private String body;
@@ -32,20 +32,20 @@ public class Post {
     @Column(name = "creation_date")
     private Date creationDate;
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public Long getIdUsuario() {
-        return idUsuario;
+    public Integer getIdUsuario() {
+        return userId;
     }
 
-    public void setIdUsuario(Long idUsuario) {
-        this.idUsuario = idUsuario;
+    public void setIdUsuario(Integer idUsuario) {
+        this.userId = idUsuario;
     }
 
     public String getBody() {

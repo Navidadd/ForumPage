@@ -1,6 +1,7 @@
 package com.example.forumpage.model;
 
 import java.sql.Date;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -19,7 +20,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
      
     @NotBlank(message = "El correo electrónico es obligatorio")
     @Email(message = "Debe tener un formato válido")
@@ -39,11 +40,13 @@ public class User {
     @Column(name = "creation_date")
     private Date creationDate;
 
-    public Long getId() {
+    private List<Integer> followers;
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -70,4 +73,21 @@ public class User {
     public void setUsername(String username) {
         this.username = username;
     }
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public List<Integer> getFollowers() {
+        return followers;
+    }
+
+    public void setFollowers(List<Integer> followers) {
+        this.followers = followers;
+    }
+
 }

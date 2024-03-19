@@ -5,14 +5,21 @@ import java.util.List;
 
 public class UserDto {
 
+    private Integer id;
     private String username;
     private Date creationDate;
     private List<PostDto> posts;
+    private List<Integer> followers;
 
-    public UserDto(String username, Date creationDate, List<PostDto> posts) {
+    public UserDto() {
+    }
+
+    public UserDto(Integer id,String username, Date creationDate, List<PostDto> posts, List<Integer> followers) {
+        this.id = id;
         this.username = username;
         this.creationDate = creationDate;
         this.posts = posts;
+        this.followers = followers;
     }
     public String getUsername() {
         return username;
@@ -33,6 +40,21 @@ public class UserDto {
         this.posts = posts;
     }
 
-    
+    public List<Integer> getFollowers() {
+        return followers;
+    }
+
+    public void setFollowers(List<Integer> followers) {
+        this.followers = followers;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     
 }

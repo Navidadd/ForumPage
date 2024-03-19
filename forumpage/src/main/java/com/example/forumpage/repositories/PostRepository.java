@@ -10,13 +10,15 @@ import org.springframework.stereotype.Repository;
 import com.example.forumpage.model.Post;
 
 @Repository
-public interface PostRepository extends JpaRepository<Post, Long>{
+public interface PostRepository extends JpaRepository<Post, Integer>{
 
         @Query("SELECT p FROM Post p WHERE p.id = ?1")
-        public Post findPostById(Long id);
+        public Post findPostById(Integer id);
 
-        @Query("SELECT p FROM Post p WHERE p.idUsuario = ?1")
-        public List<Post> findAllByUserId(Long id);
+        @Query("SELECT p FROM Post p WHERE p.userId = ?1")
+        public List<Post> findAllByUserId(Integer id);
+
+        public List<Post> findAllByOrderByCreationDateDesc();
 
         // Encontrar todos los posts
         public List<Post> findAll();
@@ -34,8 +36,8 @@ public interface PostRepository extends JpaRepository<Post, Long>{
         public long count();
     
         @Query("SELECT creationDate FROM Post p WHERE p.id = ?1")
-        public Date getCreationDate(Long id);
+        public Date getCreationDate(Integer id);
 
-        @Query("SELECT COUNT(p) FROM Post p WHERE p.idUsuario = ?1")
-        public Integer countByUserId(Long id);
+        @Query("SELECT COUNT(p) FROM Post p WHERE p.userId = ?1")
+        public Integer countByUserId(Integer id);
 }

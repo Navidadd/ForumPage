@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.example.forumpage.dto.PostDto;
+import com.example.forumpage.dto.UserDto;
 import com.example.forumpage.model.Post;
 import com.example.forumpage.model.User;
 import com.example.forumpage.repositories.PostRepository;
@@ -29,12 +30,18 @@ public class ProfileController {
     UserRepository userRepository;
 
     @GetMapping("/profile/{userId}")
-    public String showProfile(@PathVariable Long userId, Model model, HttpSession session) {
+    public String showProfile(@PathVariable Integer userId, Model model, HttpSession session) {
         
         User profileUser = userRepository.findUserById(userId);
-        model.addAttribute("profileUser", profileUser);
-        model.addAttribute("creationDate", userRepository.getCreationDateById(userId));
+        UserDto userDto = new UserDto();
+
+        userDto.setUsername(profileUser.getUsername());
+        userDto.setCreationDate(userRepository.getCreationDateById(userId));
+        model.addAttribute("sessionUser", session.getAttribute("user"));
+        model.addAttribute("profileUser", userDto);
         model.addAttribute("postsQuantity", postRepository.countByUserId(userId));
+        model.addAttribute("followers", userRepository.countByFollowedId(userId));
+        model.addAttribute("followeds", userRepository.countByFollowerId(userId));
 
         if(session.getAttribute("user") != null){
             model.addAttribute("user", session.getAttribute("user"));
@@ -44,7 +51,7 @@ public class ProfileController {
     }
 
     @ModelAttribute("posts")
-    public List<PostDto> postsList(@PathVariable Long userId){
+    public List<PostDto> postsList(@PathVariable Integer userId){
 
         List<Post> posts = postRepository.findAllByUserId(userId);
         List<PostDto> postDtos = new ArrayList<>();

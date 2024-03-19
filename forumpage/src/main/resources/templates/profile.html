@@ -51,39 +51,56 @@
 <section th:insert="fragments/header :: header"></section>
 <body>
     <div class="profile-wrapper">
-        <div class="container profile-section">
+        <div class="container profile-section" style="position: relative;">
+            <div style="display: flex; align-items: center;">
                 <h1 th:text="${profileUser.username}"></h1>
+                <div style="position: absolute; top: 0; right: 0; padding: 25px;">
+                    <button class="btn btn-secondary btn-lg rounded-pill font-weight-bold ml-2" 
+                            th:if="${sessionUser != null and sessionUser.id eq profileUser.id}">
+                        Editar
+                    </button>
+                    <button class="btn btn-secondary btn-lg rounded-pill font-weight-bold ml-2" 
+                            th:if="${sessionUser == null or sessionUser.id ne profileUser.id}">
+                        <i class="fas fa-user-plus"></i> Seguir
+                    </button>
+                </div>
+            </div>
                 <br>
-                <div>
+                <div style="">
                     <br>
-                    <h4 th:text="'Desde: ' + ${#dates.format(creationDate, 'dd-MM-yyyy')}"></h4>
+                    <h4 th:text="'Desde: ' + ${#dates.format(profileUser.creationDate, 'dd-MM-yyyy')}"></h4>
                     <br>
                     <h4 th:text="'Publicaciones: ' + ${postsQuantity}"></h4>
+                    <br>
+                    <h4 th:text="'Seguidores: ' + ${followers}"></h4>
+                    <br>
+                    <h4 th:text="'Seguidos: ' + ${followeds}"></h4>
                 </div>
         </div>
     </div>
     <div class="post-wrapper">
         <div class="container post-section">
             <h2>Publicaciones</h2>
-        <br>
-        <div>
-            <section th:each="post : ${posts}">
-                <hr>
-                <a th:href="@{/post/{postId}(postId=${post.id})}" class="title">
-                    <h3 th:text="${post.title}"></h3>
-                </a>
-                <label style="margin-right: 20px;">
-                    <i class="fas fa-calendar"></i>
-                    <span th:text="${#dates.format(post.creationDate, 'dd-MM-yyyy')}" style="font-weight: normal;"></span>
-                </label>
 
-                <label style="margin-right: 20px;">
-                    <i class="fas fa-comments"></i>
-                    <span th:text="2" style="font-weight: normal;"></span>
-                </label>
+            <br>
+            <div>
+                <section th:each="post : ${posts}">
+                    <hr>
+                    <a th:href="@{/post/{postId}(postId=${post.id})}" class="title">
+                        <h3 th:text="${post.title}"></h3>
+                    </a>
+                    <label style="margin-right: 20px;">
+                        <i class="fas fa-calendar"></i>
+                        <span th:text="${#dates.format(post.creationDate, 'dd-MM-yyyy')}" style="font-weight: normal;"></span>
+                    </label>
 
-            </section>
-        </div>
+                    <label style="margin-right: 20px;">
+                        <i class="fas fa-comments"></i>
+                        <span th:text="2" style="font-weight: normal;"></span>
+                    </label>
+
+                </section>
+            </div>
         </div>
     </div>
 </body>
