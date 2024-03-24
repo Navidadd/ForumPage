@@ -4,11 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.forumpage.dto.PostDto;
 import com.example.forumpage.dto.UserDto;
@@ -16,7 +20,9 @@ import com.example.forumpage.model.Post;
 import com.example.forumpage.model.User;
 import com.example.forumpage.repositories.PostRepository;
 import com.example.forumpage.repositories.UserRepository;
+import com.example.forumpage.services.CustomUserDetailsService;
 
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 
@@ -28,6 +34,9 @@ public class ProfileController {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    CustomUserDetailsService customUserDetailsService;
 
     @GetMapping("/profile/{userId}")
     public String showProfile(@PathVariable Integer userId, Model model, HttpSession session) {
@@ -49,6 +58,17 @@ public class ProfileController {
         
         return "profile";
     }
+
+        @PostMapping("/follow-user")
+        public ResponseEntity<Object> followUser(@RequestParam Integer followedId, HttpSession session, HttpServletResponse response){
+            User sessionUser = (User) session.getAttribute("user");
+            if (sessionUser != null) {
+                customUserDetailsService.followUser(followedId, sessionUser.getId());
+                return ResponseEntity.ok().build();
+            } else {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            }
+        }
 
     @ModelAttribute("posts")
     public List<PostDto> postsList(@PathVariable Integer userId){

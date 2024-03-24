@@ -46,6 +46,10 @@
             max-width: 70%;
         }
 
+        .br {
+            margin-bottom: 20px;
+        }
+
     </style>
 </head>
 <section th:insert="fragments/header :: header"></section>
@@ -55,28 +59,27 @@
             <div style="display: flex; align-items: center;">
                 <h1 th:text="${profileUser.username}"></h1>
                 <div style="position: absolute; top: 0; right: 0; padding: 25px;">
-                    <button class="btn btn-secondary btn-lg rounded-pill font-weight-bold ml-2" 
-                            th:if="${sessionUser != null and sessionUser.id eq profileUser.id}">
+                    <button class="btn btn-secondary btn-lg rounded-pill font-weight-bold ml-2 follow-button" 
+                            th:if="${sessionUser != null and sessionUser.id eq profileUser.id}"
+                            data-user-id="${profileUser.id}">
                         Editar
                     </button>
-                    <button class="btn btn-secondary btn-lg rounded-pill font-weight-bold ml-2" 
-                            th:if="${sessionUser == null or sessionUser.id ne profileUser.id}">
+                    <button class="btn btn-secondary btn-lg rounded-pill font-weight-bold ml-2 follow-button" 
+                            th:if="${sessionUser == null or sessionUser.id ne profileUser.id}"
+                            data-user-id="${profileUser.id}">
                         <i class="fas fa-user-plus"></i> Seguir
                     </button>
                 </div>
             </div>
-                <br>
-                <div style="">
-                    <br>
-                    <h4 th:text="'Desde: ' + ${#dates.format(profileUser.creationDate, 'dd-MM-yyyy')}"></h4>
-                    <br>
-                    <h4 th:text="'Publicaciones: ' + ${postsQuantity}"></h4>
-                    <br>
-                    <h4 th:text="'Seguidores: ' + ${followers}"></h4>
-                    <br>
-                    <h4 th:text="'Seguidos: ' + ${followeds}"></h4>
-                </div>
-        </div>
+                <div class="br"></div>
+                <h4 th:text="'Desde: ' + ${#dates.format(profileUser.creationDate, 'dd-MM-yyyy')}"></h4>
+                <div class="br"></div>
+                <h4 th:text="'Publicaciones: ' + ${postsQuantity}"></h4>
+                <div class="br"></div>
+                <h4 th:text="'Seguidores: ' + ${followers}"></h4>
+                <div class="br"></div>
+                <h4 th:text="'Seguidos: ' + ${followeds}"></h4>
+            </div>
     </div>
     <div class="post-wrapper">
         <div class="container post-section">

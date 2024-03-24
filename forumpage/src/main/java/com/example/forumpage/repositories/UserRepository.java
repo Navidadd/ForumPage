@@ -3,6 +3,7 @@ package com.example.forumpage.repositories;
 import java.sql.Date;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import com.example.forumpage.model.User;
@@ -27,4 +28,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     @Query("SELECT COUNT(f) FROM Follower f WHERE f.followerId = ?1")
     public Integer countByFollowerId(Integer id);
+
+    @Query(value = "INSERT INTO user_followers (followerId, followedId) VALUES (?1, ?2)", nativeQuery = true)
+    public void addFollower(Integer followerId, Integer followedId);
 }
