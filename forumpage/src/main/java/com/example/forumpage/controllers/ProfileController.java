@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.forumpage.dto.PostDto;
 import com.example.forumpage.dto.UserDto;
@@ -41,34 +40,54 @@ public class ProfileController {
     @GetMapping("/profile/{userId}")
     public String showProfile(@PathVariable Integer userId, Model model, HttpSession session) {
         
+        if(session.getAttribute("user") != null){
+            model.addAttribute("sessionUser", session.getAttribute("user"));
+        }
+
         User profileUser = userRepository.findUserById(userId);
         UserDto userDto = new UserDto();
 
         userDto.setUsername(profileUser.getUsername());
         userDto.setCreationDate(userRepository.getCreationDateById(userId));
-        model.addAttribute("sessionUser", session.getAttribute("user"));
+        userDto.setId(userId);
         model.addAttribute("profileUser", userDto);
         model.addAttribute("postsQuantity", postRepository.countByUserId(userId));
         model.addAttribute("followers", userRepository.countByFollowedId(userId));
         model.addAttribute("followeds", userRepository.countByFollowerId(userId));
-
-        if(session.getAttribute("user") != null){
-            model.addAttribute("user", session.getAttribute("user"));
-        }
-        
         return "profile";
     }
 
-        @PostMapping("/follow-user")
-        public ResponseEntity<Object> followUser(@RequestParam Integer followedId, HttpSession session, HttpServletResponse response){
-            User sessionUser = (User) session.getAttribute("user");
-            if (sessionUser != null) {
-                customUserDetailsService.followUser(followedId, sessionUser.getId());
-                return ResponseEntity.ok().build();
-            } else {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-            }
+    @GetMapping("/edit/{userId}")
+    public String editProfile(@PathVariable Integer userId, HttpSession session){
+        System.out.println("------------------ [EDIT PROFILE] Of " + userId + "------------------");
+        return "edit";
+    }
+
+    @PostMapping("/follow-user/{userId}")
+    public ResponseEntity<Boolean> followUser(@PathVariable("userId") Integer followedId, HttpSession session, HttpServletResponse response){
+        System.out.println("------------------ [FOLLOW-USER] ------------------");
+        
+        User sessionUser = (User) session.getAttribute("user");
+        if (sessionUser != null) {
+            customUserDetailsService.followUser(sessionUser.getId(), followedId);
+            return ResponseEntity.ok(true);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(false);
         }
+    }
+
+    @PostMapping("/unfollow-user/{userId}")
+    public ResponseEntity<Boolean> unfollowUser(@PathVariable("userId") Integer unfollowedId, HttpSession session, HttpServletResponse response){
+        System.out.println("------------------ [FOLLOW-USER] ------------------");
+        
+        User sessionUser = (User) session.getAttribute("user");
+        if (sessionUser != null) {
+            customUserDetailsService.unfollowUser(sessionUser.getId(), unfollowedId);
+            return ResponseEntity.ok(true);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(false);
+        }
+    }
 
     @ModelAttribute("posts")
     public List<PostDto> postsList(@PathVariable Integer userId){
@@ -83,7 +102,6 @@ public class ProfileController {
             postDto.setCreationDate(post.getCreationDate());
             postDtos.add(postDto);
         }
-
         return postDtos;
     }
 }

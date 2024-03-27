@@ -25,8 +25,12 @@ public class CustomUserDetailsService implements UserDetailsService{
         return new CustomUserDetails(user);
     }
 
-    public void followUser(Integer follower, Integer followed){
-        userRepository.addFollower(follower, followed);
+    public void followUser(Integer followerId, Integer followedId){
+        userRepository.addFollower(followerId, followedId);
+    }
+
+    public void unfollowUser(Integer followerId, Integer followedId){
+        userRepository.deleteFollower(followerId, followedId);
     }
 
 }

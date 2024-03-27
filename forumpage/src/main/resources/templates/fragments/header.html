@@ -33,9 +33,9 @@
                 <a class="navbar-brand" href="/">Foro-Char</a>
             </div>
             <ul class="nav navbar-nav navbar-right">
-                <li><a th:if="${user != null}" th:text="'Perfil'" th:href="@{/profile/{userId}(userId=${user.id})}"></a></li>
-                <li><a th:if="${user == null}" th:text="'Iniciar sesión'" th:value="login" href="/login"></a></li>
-                <li><a th:if="${user != null}" th:text="'Cerrar sesión'" th:value="logout" href="/logout"></a></li>
+                <li><a th:if="${sessionUser != null}" th:text="'Perfil'" th:href="@{/profile/{userId}(userId=${sessionUser.id})}"></a></li>
+                <li><a th:if="${sessionUser == null}" th:text="'Iniciar sesión'" th:value="login" href="/login"></a></li>
+                <li><a th:if="${sessionUser != null}" th:text="'Cerrar sesión'" th:value="logout" href="/logout"></a></li>
             </ul>
         </div>
     </nav>

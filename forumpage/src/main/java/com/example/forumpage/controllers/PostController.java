@@ -24,6 +24,9 @@ public class PostController {
 
     @GetMapping("/post/{postId}")
     public String showPost(@PathVariable Integer postId, Model model, HttpSession session){
+        if(session.getAttribute("user") != null){
+            model.addAttribute("sessionUser", session.getAttribute("user"));
+        }
         Post post = postRepository.findPostById(postId);
         PostDto postDto = new PostDto();
 
@@ -31,7 +34,6 @@ public class PostController {
         postDto.setBody(post.getBody());
         postDto.setCreationDate(post.getCreationDate());
         postDto.setUsername(userRepository.getUsername(post.getIdUsuario()));
-        
 
         return "post";
     }

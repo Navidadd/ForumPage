@@ -59,16 +59,27 @@
             <div style="display: flex; align-items: center;">
                 <h1 th:text="${profileUser.username}"></h1>
                 <div style="position: absolute; top: 0; right: 0; padding: 25px;">
-                    <button class="btn btn-secondary btn-lg rounded-pill font-weight-bold ml-2 follow-button" 
-                            th:if="${sessionUser != null and sessionUser.id eq profileUser.id}"
-                            data-user-id="${profileUser.id}">
-                        Editar
+                    <button type="submit"
+                            th:href="@{/edit/{userId}(userId=${sessionUser.id})}"
+                            class="btn btn-secondary btn-lg rounded-pill font-weight-bold ml-2 follow-button" 
+                            th:if="${sessionUser != null and sessionUser.id eq profileUser.id}">
+                            Editar <i class="fas fa-pen"></i>
                     </button>
-                    <button class="btn btn-secondary btn-lg rounded-pill font-weight-bold ml-2 follow-button" 
-                            th:if="${sessionUser == null or sessionUser.id ne profileUser.id}"
-                            data-user-id="${profileUser.id}">
-                        <i class="fas fa-user-plus"></i> Seguir
-                    </button>
+                    <!-- <form method="post" th:action="@{/follow-user/{userId}(userId=${profileUser.id})}">
+                        <button type="submit"
+                        class="btn btn-secondary btn-lg rounded-pill font-weight-bold ml-2 follow-button"
+                        th:unless="${sessionUser != null and sessionUser.id eq profileUser.id}">
+                        Seguir <i class="fas fa-user-plus"></i>
+                        </button>
+                    </form> -->
+                    <form id="followForm" method="post" th:action="@{/follow-user/{userId}(userId=${profileUser.id})}">
+                        <button type="button"
+                                class="btn btn-secondary btn-lg rounded-pill font-weight-bold ml-2 follow-button"
+                                th:unless="${sessionUser != null and sessionUser.id eq profileUser.id}"
+                                onclick="followUser()">
+                            Seguir <i class="fas fa-user-plus"></i>
+                        </button>
+                    </form>
                 </div>
             </div>
                 <div class="br"></div>
@@ -108,3 +119,30 @@
     </div>
 </body>
 </html>
+
+<script>
+    $(document).ready(function() {
+        // Manejar el clic en el botón de seguir
+        $('.follow-button').click(function() {
+            var button = $(this);
+            var userId = button.data('user-id');
+
+            // Realizar una solicitud POST para seguir o dejar de seguir al usuario
+            $.post('/follow-user/' + userId, function(data) {
+                // Si la solicitud se completó con éxito
+                if (data === true) {
+                    // Cambiar el texto del botón a "Dejar de seguir"
+                    button.html('Dejar de seguir <i class="fas fa-user-minus"></i>');
+                    // Cambiar el atributo th:action para deshacer la acción de seguimiento
+                    button.attr('th:action', '@{/unfollow-user/' + userId + '}');
+                } else {
+                    // Si la solicitud no se completó con éxito, mostrar un mensaje de error
+                    alert('Error al seguir al usuario. Por favor, intenta nuevamente.');
+                }
+            }).fail(function() {
+                // Si la solicitud falla, mostrar un mensaje de error
+                alert('Error al seguir al usuario. Por favor, intenta nuevamente.');
+            });
+        });
+    });
+</script>

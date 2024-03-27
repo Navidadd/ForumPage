@@ -26,7 +26,7 @@ public class MainController {
     @GetMapping("")
     public String homePage(Model model, HttpSession session){
         if(session.getAttribute("user") != null){
-            model.addAttribute("user", session.getAttribute("user"));
+            model.addAttribute("sessionUser", session.getAttribute("user"));
         }
         return "index";
     }
