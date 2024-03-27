@@ -28,13 +28,16 @@ public class PostController {
             model.addAttribute("sessionUser", session.getAttribute("user"));
         }
         Post post = postRepository.findPostById(postId);
+        postRepository.addView(postId);
         PostDto postDto = new PostDto();
 
         postDto.setTitle(post.getTitle());
         postDto.setBody(post.getBody());
         postDto.setCreationDate(post.getCreationDate());
+        postDto.setIdUser(post.getIdUsuario());
         postDto.setUsername(userRepository.getUsername(post.getIdUsuario()));
-
+        postDto.setViews(post.getViews());
+        model.addAttribute("post", postDto);
         return "post";
     }
 

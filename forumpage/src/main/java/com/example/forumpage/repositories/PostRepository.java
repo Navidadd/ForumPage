@@ -4,10 +4,13 @@ import java.sql.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.example.forumpage.model.Post;
+
+import jakarta.transaction.Transactional;
 
 @Repository
 public interface PostRepository extends JpaRepository<Post, Integer>{
@@ -40,4 +43,9 @@ public interface PostRepository extends JpaRepository<Post, Integer>{
 
         @Query("SELECT COUNT(p) FROM Post p WHERE p.userId = ?1")
         public Integer countByUserId(Integer id);
+
+        @Query("UPDATE Post SET views = views + 1 WHERE id = ?1")
+        @Modifying
+        @Transactional
+        public void addView(Integer postId);
 }

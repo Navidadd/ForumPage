@@ -32,6 +32,9 @@ public class Post {
     @Column(name = "creation_date")
     private Date creationDate;
 
+    @Column(name = "views")
+    private Integer views;
+
     public Integer getId() {
         return id;
     }
@@ -72,4 +75,21 @@ public class Post {
         this.creationDate = creationDate;
     }
 
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public Integer getViews() {
+        return views;
+    }
+
+    public void setViews(Integer views) {
+        this.views = views;
+    }
+    
+    
 }

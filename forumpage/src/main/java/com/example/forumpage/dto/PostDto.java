@@ -10,6 +10,7 @@ public class PostDto {
     private Date creationDate;
     private String body;
     private Integer userId;
+    private Integer views;
     public PostDto(){
 
     }
@@ -60,6 +61,22 @@ public class PostDto {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public Integer getViews() {
+        return views;
+    }
+
+    public void setViews(Integer views) {
+        this.views = views;
     }
 
     

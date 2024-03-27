@@ -25,15 +25,29 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
+        .post-info {
+            display: inline-block;
+            margin-right: 20px;
+            color: #777;
+        }
+
+        .post-body{
+            align-self: left;
+        }
     </style>
 </head>
 <section th:insert="fragments/header :: header"></section>
 <body>
     <div class="container">
-        <h2>Post</h2>
+        <h1 th:text="${post.title}"></h1>
+
         <br>
         <div>
-            <h1></h1>
+            <p class="post-info"><i class="fas fa-eye"></i><span th:text="${post.views}"></span></p>
+            <p class="post-info"><i class="fas fa-calendar"></i><span th:text="${#dates.format(post.creationDate, 'dd-MM-yyyy')}"></span></p>
+            <p class="post-info"><i class="fas fa-user"></i><span th:text="${post.username}" th:href=@{/profile/{userId}(userId=${post.userId})} ></span></p>
+            <p th:text="${post.body}"></p>
+            <body class="post-body" th:text="${post.body}"></body>
         </div>
     </div>
 </body>
